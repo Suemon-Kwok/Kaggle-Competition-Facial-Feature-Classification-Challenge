@@ -5,3 +5,7 @@ __pycache__/
 .ipynb_checkpoints/
 *.h5
 *.keras
+
+models/
+backup_run1/
+backup_run2/
