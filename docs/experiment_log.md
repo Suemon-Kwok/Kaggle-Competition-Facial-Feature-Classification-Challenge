@@ -12,6 +12,10 @@
 | 8 | Rerun of #4 (ResNet50V2, identical code, seed 42 set) | 0.9941 | - | 75 | not submitted |
 | 9 | Rerun of #6 (ensemble of #7 and #8) | 0.9958 | - | 53 | not submitted |
 | 10 | Equal-weight average of 4 models: runs 1 and 2 of EfficientNetB0 and ResNet50V2 (#2, #4, #7, #8) | 0.9966 | - | 43 | 0.9790 (v3) |
+| 11 | EfficientNetB0 stage 2 with AdamW (weight decay 0.05) + label smoothing 0.1, seed 42 (from the stage-1 checkpoint of #1) | 0.9953 | - | 60 | not submitted |
+| 12 | Same as #11, seed 7 | 0.9953 | - | 60 | not submitted |
+| 13 | Average of #11 and #12 (baseline pair #2 + #7: 66 errors) | 0.9955 | - | 57 | not submitted |
+| 14 | Equal-weight average of 6 models (#2, #4, #7, #8, #11, #12) | 0.9965 | - | 45 | not submitted (rule fixed in advance: submit only if below 43) |
 
 Notes: rows 7-9 are a clean rerun of the full notebook as a reproducibility check
 (validation accuracy computed from the error counts). Compared with rows 2, 4 and 6,
@@ -19,3 +23,4 @@ single models varied by about +/-10 validation errors, and the ensemble was the 
 entry in both runs. The rerun changed 331 (v1) and 233 (v2) of 29,443 test predictions.
 
 Row 10: variance-reduction experiment (no new training). It changed 107 of 29,443 test predictions relative to v2 (row 6).
+Rows 11-14: regularisation experiment. Regularised runs repeated at 60 errors versus 73 and 75 for the baselines; the 6-model ensemble did not beat the 43-error 4-model ensemble.
