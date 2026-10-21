@@ -20,6 +20,9 @@
 | 16 | Same as #15, seed 7 | 0.9954 | - | 59 | not submitted |
 | 17 | Average of #15 and #16 (baseline pair #4 + #8: 59 errors) | 0.9957 | - | 55 | not submitted |
 | 18 | Equal-weight average of 4 regularised models (#11, #12, #15, #16) | 0.9973 | - | 35 | 0.9784 (v4a) |
+| 19 | EfficientNetV2-S, two-stage fine-tune (last 20% of layers unfrozen, seed 42) | 0.9899 | - | 129 | not submitted |
+| 20 | ConvNeXt-Tiny, same recipe | 0.9924 | - | 97 | not submitted |
+| 21 | Equal-weight average of 10 models (#2, #4, #7, #8, #11, #12, #15, #16, #19, #20) | 0.9971 | - | 37 | 0.9804 (v5; exploratory, outside pre-set rule) |
 
 Notes: rows 7-9 are a clean rerun of the full notebook as a reproducibility check
 (validation accuracy computed from the error counts). Compared with rows 2, 4 and 6,
@@ -29,3 +32,5 @@ entry in both runs. The rerun changed 331 (v1) and 233 (v2) of 29,443 test predi
 Row 10: variance-reduction experiment (no new training). It changed 107 of 29,443 test predictions relative to v2 (row 6).
 Rows 11-14: regularisation experiment. Regularised runs repeated at 60 errors versus 73 and 75 for the baselines; the 6-model ensemble did not beat the 43-error 4-model ensemble.
 Rows 15-18: regularised ResNet50V2 runs (64 and 59 errors versus 63 and 75 for the baselines) and the 4-model regularised ensemble (35 errors, pre-set rule of at most 38 met; Kaggle 0.9784, v4a). The 6-model ensemble (row 14) was submitted although above its pre-set rule and scored 0.9800 (v4b); validation errors and public score did not rank the ensembles the same way.
+
+Rows 19-21: further backbones (EfficientNetV2-S 129 errors, ConvNeXt-Tiny 97 errors) were weaker than the existing single models (59-75) and no ensemble that included them had fewer than 35 errors. The 10-model average (row 21, 37 errors) missed its pre-set rule of at most 30 but was submitted as an exploratory entry (v5) and scored 0.9804; v4b and v4a remain the selected submissions.

@@ -4,7 +4,7 @@ Individual Kaggle project: 8-class classification of cat and dog facial features
 (CatEye, DogEye, CatFace, DogFace, CatMouth, DogMouth, CatNose, DogNose).
 
 - Kaggle username: kwoksuemon (leaderboard name: Suemon Kwok)
-- Best public leaderboard score: 0.9800 (v4b, six-model ensemble); other scores: 0.9767 (v1 EfficientNetB0), 0.9786 (v2 ensemble), 0.9790 (v3, four-model ensemble), 0.9784 (v4a, four regularised models)
+- Best public leaderboard score: 0.9804 (v5, exploratory ten-model ensemble). Other scores: 0.9767 (v1 EfficientNetB0), 0.9786 (v2 ensemble), 0.9790 (v3, four-model ensemble), 0.9784 (v4a, four regularised models), 0.9800 (v4b, six-model ensemble)
 - Final selected submissions: v4b and v4a
 - Approach: fine-tuned EfficientNetB0 and ResNet50V2 (two-stage transfer learning), combined by probability averaging
 - Validation accuracy (stratified 80/20 split, 12,732 images): 0.9964 (v2 ensemble), 0.9973 (v4a); full results in docs/experiment_log.md
@@ -18,13 +18,14 @@ Individual Kaggle project: 8-class classification of cat and dog facial features
 | notebooks/03_model_rerun.ipynb | Clean rerun with identical code (run-to-run variation) |
 | notebooks/04_regularisation_experiment.ipynb | Weight decay and label smoothing experiment, extra ensembles |
 | notebooks/05_leakage_controlled_validation.ipynb | Validation re-scored without duplicate/near-duplicate images |
+| notebooks/06_ensemble_extension.ipynb | Two further backbones (EfficientNetV2-S, ConvNeXt-Tiny) and ten-model ensemble (v5) |
 | src/pipeline.py | Shared data pipeline (split, labels, loading, augmentation) |
 | docs/experiment_log.md | Table of all experiments and scores |
 | figures/ | Learning curves, confusion matrices, misclassified examples |
-| submissions/ | Kaggle submission CSVs (v1, v2, v3, v4a, v4b) |
+| submissions/ | Kaggle submission CSVs (v1, v2, v3, v4a, v4b, v5) |
 | requirements.txt | Exact package versions used |
 
-Submission files: v1 = submission_v1_effnetb0.csv, v2 = submission_v2_ensemble.csv, v3 = submission_v3_ensemble4.csv, v4a = submission_v4_reg_ensemble4.csv, v4b = submission_v4_ensemble6.csv.
+Submission files: v1 = submission_v1_effnetb0.csv, v2 = submission_v2_ensemble.csv, v3 = submission_v3_ensemble4.csv, v4a = submission_v4_reg_ensemble4.csv, v4b = submission_v4_ensemble6.csv, v5 = submission_v5_exploratory_all10.csv.
 
 Model checkpoints (models/) and the data are not stored in the repository.
 
@@ -40,10 +41,13 @@ Model checkpoints (models/) and the data are not stored in the repository.
    4. 03_model, Steps 26-29 (need backup_run2)
    5. 04_regularisation_experiment
    6. 05_leakage_controlled_validation (needs docs/data_quality_check.csv from 01 and the validation probabilities saved by 03)
+   7. 06_ensemble_extension (needs the saved probabilities from 03, 03_rerun and 04)
    An NVIDIA GPU is strongly recommended (developed on an RTX 3080; roughly 10-15 minutes per model).
 4. 03_model and 04_regularisation_experiment write the submission files to submissions/.
+   submission_v5_exploratory_all10.csv was written by an extra cell added at the end of 06, because the notebook's own submission rule (at most 30 validation errors) was not met.
 
 ## Notes
 - Seeds are fixed (split seed 42, tf.keras.utils.set_random_seed(42)), but GPU training is not fully deterministic. Differences of about ten validation errors between runs are expected (see 03_model_rerun.ipynb).
 - Pretrained ImageNet weights are downloaded automatically by Keras.
+- Notebook 06 is largely a negative result: EfficientNetV2-S (129 validation errors) and ConvNeXt-Tiny (97) were weaker than the existing models (59-75) and did not lower the ensemble's validation errors; v5 is an exploratory submission.
 - Code comments were added after the report figures were captured, so most notebook screenshots in the report show uncommented code.
